@@ -35,3 +35,19 @@ Program Options:
 𝟯. 𝗛𝗲𝗹𝗽 > 𝗘𝗱𝗶𝘁𝗼𝗿 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻𝘀
 
   ⚫ 𝗘𝗱𝗶𝘁𝗼𝗿 𝗙𝘂𝗻𝗰𝘁𝗶𝗼𝗻𝘀 pop a window that has content about all functions of the program 
+  
+  
+-------------------------------------------------------------------------------------
+  
+ 🔴 𝗞𝗻𝗼𝘄𝗶𝗻𝗴 𝗜𝘀𝘀𝘂𝗲𝘀:
+  
+1. if the name of the file that is currently open in the text editor change while the text editor is running, 
+then try type something and save it, its gonna create new file with name "Text Document" or if exists "Text Document(1)",...
+
+
+------------------------------------------------------------------------------------------------------------------------------
+The way the program works:
+
+Creates a .txt file with name "Text Document" if that file exist then starts add (1) next to "Text Document"
+
+𝗲.𝗴. 𝗧𝗲𝘅𝘁 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁(𝟭) > 𝗧𝗲𝘅𝘁 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁(𝟮) > 𝗧𝗲𝘅𝘁 𝗗𝗼𝗰𝘂𝗺𝗲𝗻𝘁(𝟯)...
