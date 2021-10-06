@@ -42,7 +42,8 @@ Program Options:
  🔴 𝗞𝗻𝗼𝘄𝗶𝗻𝗴 𝗜𝘀𝘀𝘂𝗲𝘀:
   
 1. if the name of the file that is currently open in the text editor change while the text editor is running, 
-then try type something and save it, its gonna create new file with name "Text Document" or if exists "Text Document(1)",...
+then try type something and save it, its gonna create new file with name "Text Document" or if exists "Text Document(1)",
+and then will save the current text on the new file not on the currently open.
 
 
 ------------------------------------------------------------------------------------------------------------------------------
