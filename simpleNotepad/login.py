@@ -1,30 +1,87 @@
-from tkinter import *
-from tkinter import filedialog, messagebox
-import os
 from os.path import exists
+from tkinter import *
+from tkinter import messagebox
+import subprocess
+from tkinter import filedialog
 from os.path import basename
 import sys
+import os
+
+windowLogin = Tk()
+windowLogin.geometry('320x220')
+windowLogin.title('Login To Notepad')
+windowLogin.config(bg="#333")
+windowLogin.eval('tk::PlaceWindow . center')
+windowLogin.iconbitmap("Notepad-ico.ico")
 
 
-window = Tk()
-window.geometry('600x400')
-window.title('Text Editor')
-
-save_location = ''
-file = ''
-
-
-class Program:
+class Auth(object):
     def __init__(self, master):
 
+        self.frame = Frame(master, bg="#333")
+        self.frame.pack(pady=20)
+
+        self.title_label = Label(self.frame, text="Notepad", bg="#333", fg="white", font="Helvetica 40")
+        self.title_label.grid(row=1, column=1, columnspan=2)
+
+        self.email_entry = Entry(self.frame, font="15")
+        self.email_entry.grid(column=2, row=2, pady=5)
+
+        self.email_label = Label(self.frame, text='Email: ', bg="#333", fg="white", font="15")
+        self.email_label.grid(column=1, row=2)
+
+        self.password_entry = Entry(self.frame, show="*", font="15")
+        self.password_entry.grid(column=2, row=3, pady=5)
+
+        self.password_label = Label(self.frame, text='Password: ', bg="#333", fg="white", font="15")
+        self.password_label.grid(column=1, row=3)
+
+        self.register_button = Button(self.frame, text="Login", command=self.login_data, font="15")
+        self.register_button.grid(column=1, columnspan=2, row=4, pady=5)
+
+    def login_data(self):
+        global email
+        password = self.password_entry.get()
+        email = self.email_entry.get()
+        self.check_login(email, password)
+
+    def check_login(self, email, password):
+        if len(password) == 0 or len(email) == 0:
+            print("A Field or Fields Is Empty")
+        elif exists("user_data" + "/" + str(email) + ".txt"):
+            file = open("user_data" + "/" + str(email) + ".txt", "r")
+            all_lines = file.readlines()
+            spec_line = all_lines[3].replace("Password: ", "").replace("\n", "")
+            if spec_line == password:
+                messagebox.showinfo('Login Successful', 'You Have Logged In Successfully')
+                windowLogin.destroy()
+                self.notepad_starts()
+            else:
+                messagebox.showinfo('Wrong Password', 'Wrong Password!')
+
+        else:
+            MsgBox = messagebox.askquestion(title="Create New Account?",
+                                            message="This Account Doesn't Exist, You Want To Create A New Account? ")
+            if MsgBox == "yes":
+                windowLogin.destroy()
+                subprocess.call(['python', 'register.py'])
+
+    def notepad_starts(self):
+        global window
+        window = Tk()
+        window.geometry('600x400')
+        window.title('Text Editor')
+        window.eval('tk::PlaceWindow . center')
+        window.iconbitmap("Notepad-ico.ico")
+
         # function that used whenever the program starts
-        self.windows_or_linux()
+        self.user_save()
         ################################################
 
-        self.text_area = Text(master, height=1000, width=1000, bg='#333', fg='white', font='BBEdit 15')
+        self.text_area = Text(window, height=1000, width=1000, bg='#333', fg='white', font='BBEdit 15')
         self.text_area.pack()
 
-        self.menubar = Menu(master, bg='#333', fg='white')
+        self.menubar = Menu(window, bg='#333', fg='white')
 
         # Menu 1 (File)
         self.filemenu = Menu(self.menubar, tearoff=0, bg='#333', fg='white')
@@ -45,10 +102,12 @@ class Program:
         self.filemenu3.add_command(label='Dark Theme', command=self.dark_theme)
         self.menubar.add_cascade(label='Themes', menu=self.filemenu3)
 
-        master.config(menu=self.menubar)
+        window.config(menu=self.menubar)
 
         # Quit window
-        master.protocol("WM_DELETE_WINDOW", self.on_closing)
+        window.protocol("WM_DELETE_WINDOW", self.on_closing)
+
+        window.mainloop()
 
     # desides while the program is closing if will run the save function or not and the ask the user
     # if he wants to save current progress or not. Choices: yes OR no
@@ -57,7 +116,7 @@ class Program:
             text = open(save_location.replace("' mode='r' encoding='cp1253'>", ""), 'r')
             txt = text.read()
             if txt != self.text_area.get('1.0', 'end-1c'):
-                result = messagebox.askquestion("Save", "Do you want to save this text file?")
+                result = messagebox.askquestion("Save", "Do you want to save the changes?")
                 if result == 'yes':
                     self.save()
                     sys.exit()
@@ -98,49 +157,22 @@ class Program:
         # Menu 3 (Themes)
         self.filemenu3.config(bg='#333', fg='white')
 
-    # run different function for each OS -> linux OR windows
-    def windows_or_linux(self):
-        OS = sys.platform
-        if OS == 'linux' or 'linux2':
-            self.linux()
-        elif OS == 'win32':
-            self.windows()
-
-    # finds desktop location on linux and saves a .txt file (text file)
-    def linux(self):
-        global save_location
-        desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
-        file_num = 0
-        file_name = 'Text Document'
-        save_location = desktop + '/' + file_name + '.txt'
-        while exists(save_location):
-            file_num += 1
-            if file_num == 0:
-                file_name = 'Text Document'
-            else:
-                file_name = 'Text Document' + '(' + str(file_num) + ')'
-            save_location = desktop + '/' + file_name + '.txt'
-        else:
-            open(save_location, 'w')
-        window.title('Text Editor - ' + file_name)
-
     # finds desktop location on windows and saves a .txt file (text file)
-    def windows(self):
+    def user_save(self):
         global save_location
-        desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
         file_num = 0
         file_name = 'Text Document'
-        save_location = desktop + '/' + file_name + '.txt'
+        save_location = "Users/" + str(email) + '/' + file_name + '.txt'
         while exists(save_location):
             file_num += 1
             if file_num == 0:
                 file_name = 'Text Document'
             else:
                 file_name = 'Text Document' + '(' + str(file_num) + ')'
-            save_location = desktop + '/' + file_name + '.txt'
+            save_location = "Users/" + str(email) + '/' + file_name + '.txt'
         else:
             open(save_location, 'w')
-        window.title('Text Editor - ' + file_name)
+        window.title('Text Editor - ' + basename(save_location))
 
     # saves the current progress of the .txt(text) file
     def save(self):
@@ -155,24 +187,35 @@ class Program:
         f = open(path_to_save_as, 'w')
         f.write(text)
 
+    # select a file to open and display his text on the editor
     def open_file(self):
-        global save_location, file
-        file_location = filedialog.askopenfile()
+        desktop = ""
+        global save_location
+        OS = sys.platform
+        if OS == "win32":
+            desktop = os.path.join(os.path.join(os.environ['USERPROFILE']), 'Desktop')
+        elif OS == "linux" or OS == "linux2":
+            desktop = os.path.join(os.path.join(os.path.expanduser('~')), 'Desktop')
+
+        file_location = filedialog.askopenfile(initialdir=desktop)
         file_content = file_location.read()
         self.text_area.delete('1.0', END)
         self.text_area.insert(END, file_content)
         save_location = str(file_location).replace("<_io.TextIOWrapper name='", "")\
             .replace("' mode='r' encoding='UTF-8'>", "")
         file = basename(str(file_location).replace("' mode='r' encoding='UTF-8'>", ""))
-        window.title('Text Editor - ' + file.replace(".txt' mode='r' encoding='cp1253'>", ""))
+        window.title('Text Editor - ' + basename(save_location.replace("' mode='r' encoding='cp1253'>", "")))
 
+    # creates new .txt file on desktop
     def new_file(self):
-        self.windows_or_linux()
+        self.user_save()
         self.text_area.delete('1.0', END)
 
     def functions(self):
         window2 = Tk()
         window2.title('Text Editor > Help')
+        window2.eval('tk::PlaceWindow . center')
+        window2.iconbitmap("Notepad-ico.ico")
 
         frame = Frame(window2, bg='#333')
         frame.pack()
@@ -201,15 +244,16 @@ class Program:
         open_text.grid(row=4, column=1)
 
         # New
-        new_label = Label(frame, text='| Open |', fg='white', bg='#333', font='12')
-        new_text = Label(frame, text="'File -> New' creates a new .txt (text) file on your desktop"
+        new_label = Label(frame, text='| New |', fg='white', bg='#333', font='12')
+        new_text = Label(frame, text="'File -> New' creates a new .txt (text) file on current user folder"
                          , fg='white', bg='#333')
         new_label.grid(row=3, column=2, pady=10)
         new_text.grid(row=4, column=2)
 
         light_theme_label = Label(frame, text='| Light Theme |', fg='white', bg='#333', font='15')
         light_theme_text = Label(frame, text="'Themes -> Light Theme' enables the light theme of the program, \n"
-                                             "the light theme contains white background and black text", fg='white', bg='#333')
+                                             "the light theme contains white background and black text", fg='white',
+                                 bg='#333')
         light_theme_label.grid(row=5, column=1, pady=10)
         light_theme_text.grid(row=6, column=1)
 
@@ -223,6 +267,6 @@ class Program:
         window2.mainloop()
 
 
-mainGUI = Program(window)
+mainGUI = Auth(windowLogin)
 
-window.mainloop()
+windowLogin.mainloop()
