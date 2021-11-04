@@ -19,8 +19,9 @@ class App(tk.Frame):
         self.text_area.pack(side="right")
 
         # contains the files of the current folder
-        self.file_selector = tk.Listbox(self.frame, bg="#333", fg="white", font="Verdana")
-        self.file_selector.bind('<Double-1>', self.change_title)
+        self.file_selector = tk.Listbox(self.frame, bg="#333", fg="white", font="Verdana",
+                                        selectforeground="black", selectbackground="#CCCC00")
+        self.file_selector.bind('<Double-1>', self.file_db_click_function)
         self.file_selector.pack(side="top", ipadx=30, ipady=185)
 
         self.load_user_files()
@@ -82,10 +83,26 @@ class App(tk.Frame):
         selected = self.file_selector.curselection()
         self.file_selector.delete(selected)
 
-    def change_title(self, event):
+    def file_db_click_function(self, event):
+        self.open_file()
+        self.read_write_files_text_to_notepad()
+        self.change_title()
+
+    def change_title(self):
         current_file = self.file_selector.get(tk.ACTIVE)
-        print(current_file)
         window.title("JT_Notepad - " + current_file)
+
+    def open_file(self):
+        current_file = self.file_selector.get(tk.ACTIVE)
+        current_user_folder = self.locate_user_folder()
+        file = open(current_user_folder + current_file, "r+")
+        return file
+
+    def read_write_files_text_to_notepad(self):
+        file = self.open_file()
+        read_file = file.read()
+        self.text_area.delete('1.0', tk.END)
+        self.text_area.insert(tk.END, read_file)
 
 
 if __name__ == "__main__":
