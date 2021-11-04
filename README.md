@@ -1,4 +1,4 @@
-This is a Notepad Program like windows notepad, the program code is written on python, more specific on python -> 3.8 and 3.9
+This is a Notepad Program with register/login function, the program code is written on python, more specific on python -> 3.8 and 3.9
 ---------------------------------------------------------------------------------------------------------------------
 on the current state of the Notepad you can: 
 
