@@ -1,45 +1,56 @@
+import tkinter as tk
 import subprocess
-from tkinter import *
 
 
-class Notepad(object):
-    def __init__(self):
-        pass
+class Main(tk.Frame):
+    def __init__(self, parent, *args, **kwargs):
+        tk.Frame.__init__(self, parent, *args, **kwargs)
 
-    def login_register(self):
-        global window
-        window = Tk()
-        window.title("Notepad (Log in/Register)")
-        window.geometry('320x220')
-        window.resizable(False, False)
-        window.config(bg='#333')
-        window.eval('tk::PlaceWindow . center')
-        window.iconbitmap("Notepad-ico.ico")
+        self.parent = parent
+        self.config(bg="#333")
 
-        frame = Frame(window, bg='#333')
-        frame.pack(pady=20)
+        # notepad image
+        self.img = tk.PhotoImage(file="notepad.png")
 
-        label = Label(frame, text="Notepad", font="Helvetica 30", bg='#333', fg="white")
-        label.grid(row=1, column=1, columnspan=2, pady=20)
+        # the frame from all objects
+        self.frame = tk.Frame(self, bg="#333")
+        self.frame.pack()
 
-        button_login = Button(frame, text="Log In", bg='#333', fg="white", font="Helvetica 20", command=self.login)
-        button_login.grid(row=2, column=1, padx=5)
+        # App image title
+        self.imglabel = tk.Label(self.frame, image=self.img, bg="#333")
+        self.imglabel.grid(row=1, column=1, padx=3, pady=15)
 
-        button_register = Button(frame, text="Register", bg='#333', fg="white", font="Helvetica 20",
-                                 command=self.register)
+        # App title
+        self.notepadlabel = tk.Label(self.frame, text="JT_Notepad", font="Helvetica 30", bg="#333", fg="white")
+        self.notepadlabel.grid(row=1, column=2, padx=3)
 
-        button_register.grid(row=2, column=2, padx=5)
+        self.frame = tk.Frame(self, bg="#333")
+        self.frame.pack()
 
-        window.mainloop()
+        self.login_button = tk.Button(self.frame, text="Log In", bg="#333", fg="white", font="Verdana 25",
+                                      command=self.login)
+        self.login_button.grid(row=1, column=1, padx=20)
+
+        self.register_button = tk.Button(self.frame, text="Register", bg="#333", fg="white", font="Verdana 25",
+                                         command=self.register)
+        self.register_button.grid(row=1, column=2, padx=20, pady=20)
 
     def login(self):
         window.destroy()
-        subprocess.call(['python', 'login.py'])
+        subprocess.call(['python', 'loginUser.py'])
 
     def register(self):
         window.destroy()
-        subprocess.call(['python', 'register.py'])
+        subprocess.call(['python', 'registerUser.py'])
 
 
-if __name__ == '__main__':
-    Notepad().login_register()
+if __name__ == "__main__":
+    window = tk.Tk()
+    window.title("JT_Notepad")
+    window.geometry("400x220")
+    window.iconbitmap("notepad.ico")
+    window.resizable(0, 0)
+    window.eval('tk::PlaceWindow . center')
+
+    Main(window).pack(side="top", fill="both", expand=True)
+    window.mainloop()
