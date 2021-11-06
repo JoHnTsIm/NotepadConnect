@@ -28,6 +28,7 @@ Knowing Issues:
 *OPEN BUTTON DOSENT WORK YET*
 -----------------------------
 
+-----------------
 GUI (all windows)
 -----------------
 
