@@ -32,13 +32,15 @@ Knowing Issues:
 GUI (all windows)
 -----------------
 
-![Login_Register](https://user-images.githubusercontent.com/84143748/140608586-58f6b527-98c7-4a32-a680-9e4173627c1a.PNG)
+https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/1.PNG
 
-![Register](https://user-images.githubusercontent.com/84143748/140608587-c2909a28-3b99-4f11-9a11-005015b18ae4.PNG)
+https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/2.PNG
 
-![Login](https://user-images.githubusercontent.com/84143748/140608588-7ae1de85-9ac6-478d-9862-83a0ed800a8a.PNG)
+https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/3.PNG
 
-![Notepad_empty](https://user-images.githubusercontent.com/84143748/140608589-3a7e462d-3a80-488f-a003-0efc31b106e0.PNG)
+https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/4.PNG
 
-![Notepad_files](https://user-images.githubusercontent.com/84143748/140608590-c0683dd7-ec3f-4861-8bda-209cb70f227c.PNG)
+https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/5.PNG
+
+https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/6.PNG
 
