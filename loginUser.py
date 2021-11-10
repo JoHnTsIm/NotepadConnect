@@ -1,79 +1,96 @@
-import tkinter as tk
 from os.path import exists
+from tkinter import *
 from tkinter import messagebox
 import subprocess
+from PIL import Image, ImageTk
 
 
-class Login(tk.Frame):
+class Login(Frame):
     def __init__(self, parent, *args, **kwargs):
-        tk.Frame.__init__(self, parent, *args, **kwargs)
+        Frame.__init__(self, parent, *args, **kwargs)
         self.parent = parent
         self.config(bg="#333")
 
-        self.img = tk.PhotoImage(file="notepad.png")
-
         # the frame from all objects
-        self.frame = tk.Frame(self, bg="#333")
+        self.frame = Frame(self, bg="#333")
         self.frame.pack()
 
-        self.imglabel = tk.Label(self.frame, image=self.img, bg="#333")
-        self.imglabel.grid(row=1, column=1, padx=3, pady=15)
+        # Create a canvas
+        self.canvas = Canvas(self.frame, height=100, width=470, bg="#333", bd=-2)
+        self.canvas.pack()
 
-        self.notepadlabel = tk.Label(self.frame, text="JT_Notepad", font="Helvetica 30", bg="#333", fg="white")
-        self.notepadlabel.grid(row=1, column=2, padx=3)
+        # Load an image in the script
+        self.img = (Image.open("NotepadConnect2560-500.png"))
+
+        # Resize the Image using resize method
+        self.resized_image = self.img.resize((450, 85), Image.ANTIALIAS)
+        self.new_image = ImageTk.PhotoImage(self.resized_image)
+
+        # Add image to the Canvas Items
+        self.canvas.create_image(10, 10, anchor=NW, image=self.new_image)
 
         # username label
-        self.email_label = tk.Label(self.frame, text="Email", bg="#333", fg="white", font="15")
-        self.email_label.grid(row=2, column=1, pady=5)
+        self.email_label = Label(self.frame, text="Email", bg="#333", fg="white", font="Helvetica 20")
+        self.email_label.pack()
 
         # type your username
-        self.email_entry = tk.Entry(self.frame, bg="white", font="15")
-        self.email_entry.grid(row=2, column=2)
+        self.email_entry = Entry(self.frame, bg="white", font="Verdana 15")
+        self.email_entry.pack()
 
         # password label
-        self.password_label = tk.Label(self.frame, text="Password", bg="#333", fg="white", font="15")
-        self.password_label.grid(row=3, column=1, pady=5)
+        self.password_label = Label(self.frame, text="Password", bg="#333", fg="white", font="Helvetica 20")
+        self.password_label.pack()
 
         # type your password
-        self.password_entry = tk.Entry(self.frame, bg="white", font="15")
-        self.password_entry.grid(row=3, column=2)
+        self.password_entry = Entry(self.frame, bg="white", font="Verdana 15", show="*")
+        self.password_entry.pack()
 
         # login button
-        self.login_button = tk.Button(self.frame, bg="#333", fg="white", text="Log In", font="Helvetica 15",
-                                      command=self.user_check_login)
-        self.login_button.grid(column=1, columnspan=2, row=4, pady=15)
+        self.login_button = Button(self.frame, bg="#333", fg="white", text="Log In", font="Helvetica 20",
+                                      command=self.check_user_entries)
+        self.login_button.pack(pady=20)
 
-    def user_check_login(self):
+        # self.label = Label(self.frame, text="You Don't Have An Account, Create One",
+        #                    font="Helvetica 10", bg="#333", fg="white")
+        # self.label.pack(side=BOTTOM)
+        #
+        # self.button = Button(self.frame, text="Register", font="Helvetica 10", bg="#333", fg="white")
+        # self.button.pack(side=RIGHT)
+
+    def assign_entries_to_variables(self):
         email = self.email_entry.get()
         password = self.password_entry.get()
+        return email, password
 
-        # new user's text file with data location
+    def current_user_data(self):
+        email, password = self.assign_entries_to_variables()
         data_location = "user_data/" + str(email + ".txt")
+        return data_location
 
-        # this continues if there is an empty field
+    def check_user_entries(self):
+        data_location = self.current_user_data()
+        email, password = self.assign_entries_to_variables()
         if len(email) == 0 or len(password) == 0:
-            tk.messagebox.showinfo('Empty Field', 'A Field Is Empty!')
+            messagebox.showwarning('Empty Field', 'A Field Is Empty!')
 
-        # this continues if text file with this name exists in this location
         elif exists(data_location):
             data = open(data_location, "r")
             data_lines = data.readlines()
             user_password = data_lines[1].replace("Password: ", "").replace("\n", "")
 
-            # this continues if the password typed by the user, is equal to the password of the user's typed email
             if password == user_password:
                 email_txt = open("email.txt", "w")
                 email_txt.write(email)
                 email_txt.close()
-                tk.messagebox.showinfo('Login Successful', 'You Have Logged In Successfully!')
+                messagebox.showinfo('Login Successful', 'You Have Logged In Successfully!')
                 window.destroy()
                 subprocess.call(['python', 'notepadApp.py'])
 
             else:
-                tk.messagebox.showinfo('Wrong Password', 'This Password Doesnt Match With This Email Address!')
+                messagebox.showinfo('Wrong Password', 'This Password Doesnt Match With This Email Address!')
 
         else:
-            msgBox = tk.messagebox.askquestion(title="User Doesnt Exists",
+            msgBox = messagebox.askquestion(title="User Doesnt Exists",
                                                message="This Email Address Doesnt Belong To Any User, Would You Like"
                                                        " To Create An Account With This Email Address?")
             if msgBox == "yes":
@@ -82,9 +99,9 @@ class Login(tk.Frame):
 
 
 if __name__ == "__main__":
-    window = tk.Tk()
-    window.title("JT_Notepad Login")
-    window.geometry("400x220")
+    window = Tk()
+    window.title("NotepadConnect (Log In)")
+    window.geometry("470x400")
     window.iconbitmap("notepad.ico")
     window.eval('tk::PlaceWindow . center')
     window.resizable(0, 0)
