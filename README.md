@@ -32,15 +32,12 @@ Knowing Issues:
 GUI (all windows)
 -----------------
 
-https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/1.PNG
+![1](https://user-images.githubusercontent.com/84143748/141205132-6debcc40-18b4-48bd-a2fc-bde24e96bd3b.PNG)
+![2](https://user-images.githubusercontent.com/84143748/141205136-a8938300-fa43-4ea5-8bc3-a2b7b83bb72c.PNG)
+![3](https://user-images.githubusercontent.com/84143748/141205137-95a70049-98a7-48a8-9163-15dcefdaa8db.PNG)
+![4](https://user-images.githubusercontent.com/84143748/141205139-8512f73f-6940-4cea-ba68-21e37e5da537.PNG)
+![5](https://user-images.githubusercontent.com/84143748/141205140-ec593e66-14bd-47a0-a2f0-0d26ca766add.PNG)
+![6](https://user-images.githubusercontent.com/84143748/141205141-b6998716-d2cb-44ad-b63f-043ade5cd81c.PNG)
 
-https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/2.PNG
 
-https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/3.PNG
-
-https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/4.PNG
-
-https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/5.PNG
-
-https://github.com/JoHnTsIm/NotepadConnect/blob/main/GUI%20Images/6.PNG
 
