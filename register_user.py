@@ -102,22 +102,35 @@ class Register(Frame):
                                                        "do you want to login with this email address?")
             if msgBox == "yes":
                 window.destroy()
-                subprocess.call(['python', 'loginUser.py'])
+                subprocess.call(['python', 'login_user.py'])
 
         else:
             self.new_user_file()
             self.new_user_folder()
             messagebox.showinfo(message="New User Registered Successfully!", title="Register Successful")
             window.destroy()
-            subprocess.call(['python', 'loginUser.py'])
+            subprocess.call(['python', 'login_user.py'])
 
 
 if __name__ == "__main__":
     window = Tk()
+
+    # Centering Tkinter Window
+    window_height = 480
+    window_width = 400
+
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+
+    x_cordinate = int((screen_width / 2) - (window_width / 2))
+    y_cordinate = int((screen_height / 2) - (window_height / 2))
+
+    window.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    ###########################
+
     window.title("NotepadConnect (Register)")
     window.geometry("480x400")
     window.iconbitmap("notepad.ico")
-    window.eval('tk::PlaceWindow . center')
     window.resizable(0, 0)
 
     Register(window).pack(side="top", fill="both", expand=True)

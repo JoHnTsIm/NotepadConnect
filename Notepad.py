@@ -1,6 +1,7 @@
 from tkinter import *
 import subprocess
 from PIL import Image, ImageTk
+from locate_data import Locate
 
 
 class Main(Frame):
@@ -35,29 +36,55 @@ class Main(Frame):
         self.frame.pack()
 
         self.login_button = Button(self.frame, text="Log In", bg="#333", fg="white", font="Helvetica 25",
-                                      command=self.login)
+                                   command=self.login)
         self.login_button.pack(side=LEFT, pady=20, padx=10)
 
         self.register_button = Button(self.frame, text="Register", bg="#333", fg="white", font="Helvetica 25",
-                                         command=self.register)
+                                      command=self.register)
+
         self.register_button.pack(side=RIGHT)
 
-    def login(self):
-        window.destroy()
-        subprocess.call(['python', 'loginUser.py'])
+        self.check_login()
 
-    def register(self):
+    @staticmethod
+    def check_login():
+        file_lines = Locate().return_user_file()
+
+        if len(file_lines) != 0:
+            window.destroy()
+            subprocess.call(['python', 'app.py'])
+
+    @staticmethod
+    def login():
         window.destroy()
-        subprocess.call(['python', 'registerUser.py'])
+        subprocess.call(['python', 'login_user.py'])
+
+    @staticmethod
+    def register():
+        window.destroy()
+        subprocess.call(['python', 'register_user.py'])
 
 
 if __name__ == "__main__":
     window = Tk()
+
+    # Centering Tkinter Window
+    window_height = 220
+    window_width = 510
+
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+
+    x_cordinate = int((screen_width / 2) - (window_width / 2))
+    y_cordinate = int((screen_height / 2) - (window_height / 2))
+
+    window.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    ###########################
+
     window.title("NotepadConnect (Log In/Register)")
     window.geometry("510x220")
     window.iconbitmap("notepad.ico")
     window.resizable(0, 0)
-    window.eval('tk::PlaceWindow . center')
 
     Main(window).pack(side="top", fill="both", expand=True)
     window.mainloop()

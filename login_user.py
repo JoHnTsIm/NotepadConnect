@@ -79,12 +79,12 @@ class Login(Frame):
             user_password = data_lines[1].replace("Password: ", "").replace("\n", "")
 
             if password == user_password:
-                email_txt = open("email.txt", "w")
-                email_txt.write(email)
+                email_txt = open("shared_data.txt", "w")
+                email_txt.write("logged in user: " + email)
                 email_txt.close()
                 messagebox.showinfo('Login Successful', 'You Have Logged In Successfully!')
                 window.destroy()
-                subprocess.call(['python', 'notepadApp.py'])
+                subprocess.call(['python', 'app.py'])
 
             else:
                 messagebox.showinfo('Wrong Password', 'This Password Doesnt Match With This Email Address!')
@@ -95,15 +95,28 @@ class Login(Frame):
                                                        " To Create An Account With This Email Address?")
             if msgBox == "yes":
                 window.destroy()
-                subprocess.call(['python', 'registerUser.py'])
+                subprocess.call(['python', 'register_user.py'])
 
 
 if __name__ == "__main__":
     window = Tk()
+
+    # Centering Tkinter Window
+    window_height = 470
+    window_width = 400
+
+    screen_width = window.winfo_screenwidth()
+    screen_height = window.winfo_screenheight()
+
+    x_cordinate = int((screen_width / 2) - (window_width / 2))
+    y_cordinate = int((screen_height / 2) - (window_height / 2))
+
+    window.geometry("{}x{}+{}+{}".format(window_width, window_height, x_cordinate, y_cordinate))
+    ###########################
+
     window.title("NotepadConnect (Log In)")
     window.geometry("470x400")
     window.iconbitmap("notepad.ico")
-    window.eval('tk::PlaceWindow . center')
     window.resizable(0, 0)
 
     Login(window).pack(side="top", fill="both", expand=True)
